@@ -248,3 +248,32 @@ int yyerror(char *s) {
     fprintf(stderr, "Syntax error: %s\n", s);
     return 1;
 }
+
+function_declaration:
+    type IDENTIFIER '(' parameter_list ')' '{' statement_list '}' { 
+        add_symbol($2, $1); 
+    }
+
+parameter_list:
+    type IDENTIFIER { $$ = $2; }
+    | parameter_list ',' type IDENTIFIER { $$ = $2; }
+;
+
+statement_list:
+    statement
+    | statement_list statement
+;
+
+statement:
+    IDENTIFIER '(' argument_list ')' { 
+        if (!find_symbol($1)) {
+            printf("Error: Function '%s' not declared.\n", $1);
+        } 
+    }
+;
+
+argument_list:
+    expression { $$ = $1; }
+    | argument_list ',' expression { $$ = $1; }
+;
+
