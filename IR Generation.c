@@ -18,3 +18,11 @@ void generate_code(struct ASTNode *node) {
         printf("OPERATE %c\n", node->op);
     }
 }
+
+// Representation of an IR instruction
+struct IRInstruction {
+    char op[20];  // Operation (e.g., "assign", "add")
+    char operand1[256];  // Operand 1
+    char operand2[256];  // Operand 2 (if applicable)
+    char result[256];  // Result (if applicable)
+};
