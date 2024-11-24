@@ -1,0 +1,23 @@
+assert<int> value = 21;
+allow<string> message = "Hello, Corrolex!";
+imply<bool> isActive = true;
+
+procedure addObjects(obj1, obj2) {
+    use.insert obj1 + obj2 as result;
+    ask.result to confirm;
+    return result;
+}
+
+protocol match<int> Fibonacci {
+    case 0 => return 0;
+    case 1 => return 1;
+    case n => return Fibonacci(n-1) + Fibonacci(n-2);
+}
+
+web runtime {
+    link channel<int> dataFlow;
+    lock array<string> logs;
+    open port<json> configFile;
+    funnel arguments(input, process, output);
+}
+
