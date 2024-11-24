@@ -125,3 +125,29 @@ int yyerror(char *s) {
     return 1;
 }
 
+declaration:
+    type IDENTIFIER ';' { 
+        add_symbol($2, $1);
+        generate_declaration_code($2, $1);
+    }
+    | type IDENTIFIER '=' expression ';' { 
+        add_symbol($2, $1);
+        generate_assignment_code($2, $4);
+        generate_expression_code("assign", $2, $4, $2);
+    }
+;
+
+expression:
+    IDENTIFIER { 
+        if (!find_symbol($1)) {
+            printf("Error: Variable '%s' not declared.\n", $1);
+        }
+        $$ = $1; // Propagate the variable name
+    }
+    | NUMBER { $$ = $1; }  // Numbers are passed as-is
+    | expression OPERATOR expression { 
+        $$ = $1; // For simplicity, assume types match
+        generate_expression_code("op", $1, $3, $1);
+    }
+;
+
