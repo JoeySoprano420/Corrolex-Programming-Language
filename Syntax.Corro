@@ -95,3 +95,12 @@ declare Project<GameEngine> AAAFPSGame = {
     modules: ["physics", "AI", "graphics"],
     output: "AAA Game Binary"
 };
+
+declare function<AnimationPipeline> renderScene(SceneData scene) {
+    preprocess(scene);
+    calculateKeyframes(scene.characters);
+    return compile(scene.frames);
+}
+
+declare function<WeatherSystem> simulateRain(Scene scene, int intensity);
+
