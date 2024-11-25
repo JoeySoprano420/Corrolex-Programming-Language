@@ -58,3 +58,34 @@ loop (int i = 1; i <= 5; i += 1) {  // Looping structure
 lock (counter) {  // Thread-safe operation
     print("Final result: " + counter);
 }
+
+// Step 1: Declarative
+declare Project<int> DataProcessingPipeline = {
+    purpose: "Transform raw input into a processed summary",
+    inputs: ["raw_data.json"],
+    output: "summary_report"
+};
+
+// Step 2: Procedural
+procedure processData(string inputFile, string outputFile) {
+    declare list<string> rawData = load(inputFile);
+    for (int i = 0; i < rawData.length; i += 1) {
+        rawData[i] = clean(rawData[i]); // Step-by-step cleaning
+    }
+    save(rawData, outputFile); // Save processed data
+}
+
+// Step 3: Functional
+declare function<int> summarizePipeline(Project<int> project) {
+    processData(project.inputs[0], project.output); // Procedural call
+    return computeSummary(project.output); // Functional summary
+}
+
+// Usage
+declare int projectSummary = summarizePipeline(DataProcessingPipeline);
+print("Project Summary: " + projectSummary);
+
+// Reuse project summary
+if (projectSummary > 100) {
+    log("Significant data processing completed.");
+}
