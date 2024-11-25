@@ -89,3 +89,9 @@ print("Project Summary: " + projectSummary);
 if (projectSummary > 100) {
     log("Significant data processing completed.");
 }
+
+declare Project<GameEngine> AAAFPSGame = {
+    purpose: "Real-time first-person shooter engine with dynamic environments",
+    modules: ["physics", "AI", "graphics"],
+    output: "AAA Game Binary"
+};
