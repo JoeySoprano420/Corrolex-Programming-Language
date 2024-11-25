@@ -37,3 +37,24 @@ use.quarantines(); // Data quarantined after operation to ensure security
 
 ask.result to print: "The result is " + result;
 
+use math;          // Importing a library
+use permissions;   // Enabling necessary permissions
+
+declare int counter = 0;   // Variable declaration
+
+declare function factorial(int n): int {  // Function declaration
+    assert(n >= 0);  // Error handling with an assertion
+    if (n == 0) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+
+loop (int i = 1; i <= 5; i += 1) {  // Looping structure
+    counter += factorial(i);  // Recursive function call
+}
+
+lock (counter) {  // Thread-safe operation
+    print("Final result: " + counter);
+}
