@@ -1605,3 +1605,227 @@ Here’s a breakdown of all the terms used in the **features of Corrolex**, expl
 
 This explanation should help even non-programmers understand the features of Corrolex. 
 
+In Corrolex, the file extensions help identify the type of file you're working with and how the system should handle it. Here are the primary file extensions used in Corrolex:
+
+### **1. `.corrolex`**
+- **Purpose**: This is the main file extension for Corrolex source code. Files with this extension contain the written instructions (programs) written in Corrolex language.
+- **Example**:  
+  - `main.corrolex`: A file that contains the main program logic written in Corrolex.
+
+---
+
+### **2. `.clx`**
+- **Purpose**: A compiled Corrolex file. When you write your code in a `.corrolex` file, the compiler turns it into a `.clx` file, which is the machine-readable format that the system runs.
+- **Example**:  
+  - `game.clx`: A compiled file that the system executes after converting it from `.corrolex`.
+
+---
+
+### **3. `.corrolexlib`**
+- **Purpose**: This extension is used for library files in Corrolex. These are reusable pieces of code, like pre-made functions or utilities that can be included in your programs to save time and avoid writing the same code over and over.
+- **Example**:  
+  - `math.corrolexlib`: A library that might include pre-made functions for mathematical operations (like addition, subtraction, etc.).
+
+---
+
+### **4. `.corrolexconfig`**
+- **Purpose**: Configuration files that store settings for a specific Corrolex program or environment. These files typically define how the program should behave when it’s run.
+- **Example**:  
+  - `settings.corrolexconfig`: A configuration file that tells your program how to behave, like what language to display or what theme to use.
+
+---
+
+### **5. `.corrolexbak`**
+- **Purpose**: Backup files created automatically by Corrolex when you're working on a `.corrolex` file. These are safety nets, so you don’t lose work if something goes wrong.
+- **Example**:  
+  - `main.corrolexbak`: A backup file for your `main.corrolex` file.
+
+---
+
+### **6. `.corrolexzip`**
+- **Purpose**: Compressed archives that can contain a bundle of Corrolex files, such as source code, libraries, configurations, and other assets. This is useful when sharing or deploying projects.
+- **Example**:  
+  - `project.corrolexzip`: A zip archive containing all the necessary files for a Corrolex project.
+
+---
+
+These extensions make it easy to organize and work with different types of files in Corrolex. 
+
+Great! Let's walk through how to use and create these different types of Corrolex files, step-by-step. I’ll guide you through writing, compiling, using libraries, configuring, and organizing your projects.
+
+---
+
+### **1. Working with `.corrolex` Files (Source Code)**
+
+A **`.corrolex` file** contains the core logic of your program, written in the Corrolex language. This is where you define variables, functions, logic, and more.
+
+#### **Creating a `.corrolex` File**:
+1. **Open your text editor** (e.g., VS Code, Notepad++).
+2. **Write your program** in Corrolex syntax. Here's an example program:
+
+```corrolex
+// Program to greet the user
+fun greetUser(name: String) {
+    print("Hello, \(name)!")
+}
+
+// Calling the function with a name
+greetUser("Alice")
+```
+
+3. **Save the file** with the `.corrolex` extension.  
+   - File name: `greet.corrolex`
+
+#### **Compiling the `.corrolex` File**:
+Once you’ve written your code, you need to compile it so that it can run on the machine.
+
+- **To compile**: Run the compiler tool (a command in your terminal or an integrated function in your IDE).
+  ```bash
+  corrolex-compiler greet.corrolex
+  ```
+
+- **Result**: It will generate a `.clx` file, which is the compiled version of your program.
+
+---
+
+### **2. Working with `.clx` Files (Compiled Files)**
+
+A **`.clx` file** is the compiled version of your `.corrolex` file. It’s ready to be executed, but you cannot directly edit it in the same way as the source code.
+
+#### **Running a `.clx` File**:
+- Once compiled, you can run your `.clx` file using the Corrolex interpreter.
+  ```bash
+  corrolex-run greet.clx
+  ```
+
+This will execute the compiled program and display the output.
+
+---
+
+### **3. Working with `.corrolexlib` Files (Libraries)**
+
+Libraries are reusable blocks of code that provide additional functionality, like pre-built functions for common tasks (math, string manipulation, etc.).
+
+#### **Creating a `.corrolexlib` File**:
+1. **Write your reusable functions** in Corrolex.
+   Example library file (`math.corrolexlib`):
+   ```corrolex
+   // math.corrolexlib - Functions for simple math operations
+
+   fun add(a: Integer, b: Integer) -> Integer {
+       return a + b
+   }
+
+   fun subtract(a: Integer, b: Integer) -> Integer {
+       return a - b
+   }
+   ```
+
+2. **Save the file** with the `.corrolexlib` extension.  
+   - File name: `math.corrolexlib`
+
+#### **Using the `.corrolexlib` File in Your Code**:
+To use functions from your library, you need to **import** it into your program.
+
+```corrolex
+// main.corrolex - Program using the math library
+
+import "math.corrolexlib"
+
+let result = add(5, 10)
+print("Result: \(result)")  // Outputs: Result: 15
+```
+
+---
+
+### **4. Working with `.corrolexconfig` Files (Configuration Files)**
+
+A **`.corrolexconfig` file** holds the settings or preferences for your program. It’s like a blueprint or set of instructions that tells the program how to behave.
+
+#### **Creating a `.corrolexconfig` File**:
+1. Define your settings in Corrolex configuration syntax.
+   Example configuration file (`settings.corrolexconfig`):
+   ```corrolex
+   // settings.corrolexconfig - Configuration for the app
+
+   let language = "English"
+   let theme = "Dark"
+   let debugMode = true
+   ```
+
+2. **Save the file** with the `.corrolexconfig` extension.  
+   - File name: `settings.corrolexconfig`
+
+#### **Using the `.corrolexconfig` File in Your Code**:
+In your program, you can **load** the configuration and use those values.
+
+```corrolex
+// main.corrolex - Using the config file
+
+import "settings.corrolexconfig"
+
+if debugMode {
+    print("Debug mode is ON")
+}
+```
+
+---
+
+### **5. Working with `.corrolexbak` Files (Backup Files)**
+
+A **`.corrolexbak` file** is automatically created as a backup when you’re working on a `.corrolex` file. It helps protect your work in case something goes wrong.
+
+#### **How to Use**:
+- If your original `.corrolex` file gets corrupted or deleted, you can recover your work from the `.corrolexbak` file.
+  - Example: If `greet.corrolex` is lost, but `greet.corrolexbak` exists, simply rename the backup:
+  ```bash
+  mv greet.corrolexbak greet.corrolex
+  ```
+
+---
+
+### **6. Working with `.corrolexzip` Files (Project Archive Files)**
+
+A **`.corrolexzip`** file is a compressed archive that contains multiple Corrolex files, such as source code, libraries, and configuration files. It’s great for sharing or moving a complete project.
+
+#### **Creating a `.corrolexzip` File**:
+1. Place all your related Corrolex files into a folder.
+2. **Compress** the folder into a `.corrolexzip` file (use any compression tool like ZIP or Tar).
+   Example: `my_project.corrolexzip`
+
+#### **Extracting and Using the `.corrolexzip` File**:
+1. **Extract the `.corrolexzip` file** to a location of your choice.
+   ```bash
+   unzip my_project.corrolexzip
+   ```
+
+2. After extraction, you can access all the files inside and continue working with them.
+
+---
+
+### **Example Workflow for a Simple Project**:
+
+1. **Create a new Corrolex project**:
+   - `main.corrolex`: Write the main logic.
+   - `math.corrolexlib`: Write reusable functions for math.
+   - `settings.corrolexconfig`: Define settings like language and theme.
+
+2. **Compile your source file**:
+   ```bash
+   corrolex-compiler main.corrolex
+   ```
+
+3. **Run the compiled program**:
+   ```bash
+   corrolex-run main.clx
+   ```
+
+4. **Backup your work**:
+   - The compiler may automatically create a `.corrolexbak` file if anything goes wrong.
+
+5. **Share the project**:
+   - Compress all files into `my_project.corrolexzip` and share it with others.
+
+---
+
+These steps should help you get started with using and creating Corrolex files! 
