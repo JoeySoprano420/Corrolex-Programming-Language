@@ -54,3 +54,7 @@ expression:
     }
 ;
 
+// Example of generating simple WebAssembly code for an addition
+void generate_addition_code(const char* result, const char* operand1, const char* operand2) {
+    printf("(local.set %s (i32.add (local.get %s) (local.get %s)))\n", result, operand1, operand2);
+}
