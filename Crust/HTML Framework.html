@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crust: Corrolex Virtual Machine</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Crust: Violet Aura Universe Interface</h1>
+    </header>
+    <main>
+        <section id="metrics-display">
+            <h2>System Metrics</h2>
+            <div id="metrics">
+                <p>CPU Usage: <span id="cpu"></span>%</p>
+                <p>Memory Usage: <span id="memory"></span>%</p>
+                <p>GPU Usage: <span id="gpu"></span>%</p>
+                <p>Anomaly Probability: <span id="anomaly"></span></p>
+            </div>
+        </section>
+        <section id="controls">
+            <button onclick="simulateMetrics()">Simulate Metrics</button>
+            <button onclick="optimizeResources()">Optimize Resources</button>
+        </section>
+    </main>
+    <script src="crust_metrics.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
