@@ -107,3 +107,114 @@ int main() {
 
     return 0;
 }
+
+#include <gtk/gtk.h>
+#include <emscripten.h>
+#include <emscripten/bind.h>
+
+// Global Variables for Thematic Visualizations
+GtkCssProvider *css_provider;
+const char *current_theme = "violet_aura_theme.css";
+
+// AI Companion Framework
+void display_ai_companion_message(const char *message) {
+    g_print("AI Companion: %s\n", message);
+    // In future versions, use a GUI popup or speech synthesis.
+}
+
+// System Monitoring Metrics
+typedef struct {
+    double cpu_usage;
+    double memory_usage;
+    double gpu_usage;
+    double network_traffic;
+} SystemMetrics;
+
+SystemMetrics fetch_system_metrics() {
+    // Simulate fetching metrics (replace with real implementation)
+    SystemMetrics metrics = {65.0, 73.5, 45.2, 120.8};
+    return metrics;
+}
+
+// Thematic Visualizations
+void load_theme(const char *theme_file) {
+    if (css_provider) {
+        g_object_unref(css_provider);
+    }
+    css_provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_path(css_provider, theme_file, NULL);
+    gtk_style_context_add_provider_for_screen(
+        gdk_screen_get_default(),
+        GTK_STYLE_PROVIDER(css_provider),
+        GTK_STYLE_PROVIDER_PRIORITY_USER
+    );
+}
+
+// GUI Update Function
+void update_gui(GtkWidget *cpu_label, GtkWidget *memory_label, GtkWidget *gpu_label, GtkWidget *network_label) {
+    SystemMetrics metrics = fetch_system_metrics();
+
+    char cpu_text[50];
+    char memory_text[50];
+    char gpu_text[50];
+    char network_text[50];
+
+    snprintf(cpu_text, sizeof(cpu_text), "CPU Usage: %.2f%%", metrics.cpu_usage);
+    snprintf(memory_text, sizeof(memory_text), "Memory Usage: %.2f%%", metrics.memory_usage);
+    snprintf(gpu_text, sizeof(gpu_text), "GPU Usage: %.2f%%", metrics.gpu_usage);
+    snprintf(network_text, sizeof(network_text), "Network Traffic: %.2f KB/s", metrics.network_traffic);
+
+    gtk_label_set_text(GTK_LABEL(cpu_label), cpu_text);
+    gtk_label_set_text(GTK_LABEL(memory_label), memory_text);
+    gtk_label_set_text(GTK_LABEL(gpu_label), gpu_text);
+    gtk_label_set_text(GTK_LABEL(network_label), network_text);
+}
+
+// Main Application
+void activate(GtkApplication *app, gpointer user_data) {
+    GtkWidget *window;
+    GtkWidget *grid;
+    GtkWidget *cpu_label, *memory_label, *gpu_label, *network_label;
+
+    // Create Window
+    window = gtk_application_window_new(app);
+    gtk_window_set_title(GTK_WINDOW(window), "Crust Environment");
+    gtk_window_set_default_size(GTK_WINDOW(window), 800, 600);
+
+    // Create Grid
+    grid = gtk_grid_new();
+    gtk_container_add(GTK_CONTAINER(window), grid);
+
+    // Labels for Metrics
+    cpu_label = gtk_label_new("CPU Usage: ");
+    memory_label = gtk_label_new("Memory Usage: ");
+    gpu_label = gtk_label_new("GPU Usage: ");
+    network_label = gtk_label_new("Network Traffic: ");
+
+    // Add Labels to Grid
+    gtk_grid_attach(GTK_GRID(grid), cpu_label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), memory_label, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), gpu_label, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), network_label, 0, 3, 1, 1);
+
+    // Load Theme
+    load_theme(current_theme);
+
+    // Show Widgets
+    gtk_widget_show_all(window);
+
+    // Periodically Update Metrics
+    g_timeout_add(1000, (GSourceFunc)update_gui, grid);
+}
+
+int main(int argc, char **argv) {
+    GtkApplication *app;
+    int status;
+
+    app = gtk_application_new("com.violet_aura.crust", G_APPLICATION_FLAGS_NONE);
+    g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
+    status = g_application_run(G_APPLICATION(app), argc, argv);
+    g_object_unref(app);
+
+    return status;
+}
