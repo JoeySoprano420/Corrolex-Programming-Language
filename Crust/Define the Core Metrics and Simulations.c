@@ -38,4 +38,10 @@ EMSCRIPTEN_KEEPALIVE
 SystemMetrics optimize_resources(SystemMetrics metrics) {
     // Simple logic: reduce usage if metrics are high
     if (metrics.cpu_usage > 90.0) metrics.cpu_usage -= 10.0;
-   
+       if (metrics.memory_usage > 90.0) metrics.memory_usage -= 10.0;
+    if (metrics.gpu_usage > 90.0) metrics.gpu_usage -= 10.0;
+
+    // Lower anomaly probability through optimization
+    metrics.anomaly_probability *= 0.7; // Reduce probability by 30%
+    return metrics;
+}
