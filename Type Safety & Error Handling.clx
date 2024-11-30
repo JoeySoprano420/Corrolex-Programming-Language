@@ -1,0 +1,14 @@
+// Type safety for the breakdown function
+function breakdown(task: string): string {
+    if (task == "PipelineSetup") {
+        return "Decomposing pipeline task into smaller stages."
+    }
+    return "Unknown task."
+}
+
+// Correct usage
+task = "PipelineSetup"
+result = breakdown(task)
+
+// Incorrect usage - Compilation error (type mismatch)
+task = 1234 // Error: Expected string, got int
