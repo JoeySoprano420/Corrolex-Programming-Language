@@ -1,0 +1,39 @@
+// Step 1: Breakdown task
+task = ./b: DataProcessingPipeline
+breakdown_result = breakdown(task) // Modular function call
+
+// Step 2: Explore dataset
+dataset = #(LargeDataset)
+explore_result = explore(dataset) // Using shorthand operator
+
+// Step 3: Isolate important variables for analysis
+priority_level = "High"
+isolated_vars = @&|DataVariables|/%HighPriority
+isolate_result = isolate(isolated_vars, priority_level) // Modular function call
+
+// Step 4: Perform calculations
+calculation_result = calculate(isolated_vars) // Use of isolate directive in function
+
+// Step 5: Transition to the next stage of processing
+next_stage = ->: ProcessOptimizationStage
+transition_result = transition(next_stage, "OptimizationTarget") // Modular function call
+
+// Step 6: Set priorities for the critical analysis stage
+priority_result = ^: CriticalAnalysis
+priority_function = assign_priority("High", "AnalysisStage") // Using function for priorities
+
+// Step 7: Alert for potential issues
+alert_result = !: MemoryLeakDetected
+alert_message = alert("Memory leakage detected in critical analysis.") // Alerting with function
+
+// Step 8: Approximate results based on current data
+approximation = ~: FinalResultsEstimation
+approximation_result = approximate("NextStageData") // Approximation function
+
+// Step 9: Bidirectional mapping between stages
+data_link = <-> Stage1Data, Stage2Data
+bidirectional_result = bidirectional("Stage1Data", "Stage2Data") // Bidirectional link creation
+
+// Step 10: Select the optimal final result
+final_output = :> OptimalResultSelection
+final_result = select("OptimalPath") // Selecting final output
