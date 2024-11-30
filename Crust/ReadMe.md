@@ -929,3 +929,91 @@ Here’s a detailed comparison of **Corrolex**, **Crust**, **.NET**, and **Node.
 
 The choice between these tools largely depends on your project requirements, team expertise, and the desired balance of performance, scalability, and ease of development.
 
+### **Crust Environment Overview**
+
+The **Crust Environment** is a comprehensive runtime framework designed to support **Corrolex**, a hybrid-level programming language. Crust integrates advanced system monitoring, an interpreter for Corrolex scripts, and real-time visualizations, enabling both developers and users to interact seamlessly with system resources and Corrolex functionalities.
+
+---
+
+### **Key Features**
+
+#### **1. Advanced System Monitoring**
+- **Metrics Tracked**:
+  - **CPU Usage**: Real-time processing load.
+  - **Memory Usage**: Total and available memory (RAM).
+  - **Disk Usage**: Storage capacity and usage for specific paths.
+  - **Network Traffic**: Incoming (RX) and outgoing (TX) data in bytes.
+  - **GPU Usage**: Simulated load, extendable to real metrics with hardware-specific APIs.
+- **Implementation**: 
+  - Uses `sys/statvfs.h`, `/proc/net/dev`, and simulated functions for lightweight metric gathering.
+  - Modular functions allow future extensions for detailed metrics (e.g., I/O stats, thermal monitoring).
+
+#### **2. Corrolex Script Interpreter**
+- **Script Execution**:
+  - Executes **Corrolex commands** such as `PRINT`, `MONITOR`, and other custom logic.
+  - Interprets user input and integrates it with system functions (e.g., triggering system monitors).
+- **Features**:
+  - User-friendly input interface with live execution feedback.
+  - Expandable command set to add custom Corrolex operations.
+
+#### **3. Real-Time Visualization**
+- **Visualization Tools**:
+  - **Terminal-based Interface**: Built with `ncurses` for dynamic updates.
+  - Displays CPU, memory, and disk usage in real-time.
+- **Future Potential**:
+  - Can be extended to graphical libraries like GTK or Qt for advanced GUIs.
+  - Modular architecture allows integration with dashboards or cloud-based visualizations.
+
+#### **4. Multi-Threaded Design**
+- **Concurrency**:
+  - Uses **POSIX threads** (`pthread`) for parallel execution of system monitoring and visualizations.
+  - Ensures smooth performance by isolating processes.
+- **Scalability**:
+  - Supports additional threads for custom Corrolex tasks or intensive system analysis.
+
+---
+
+### **Workflow**
+1. **Launch Environment**:
+   - Start the environment with real-time monitoring running in the background.
+2. **Interact with Corrolex**:
+   - Input and execute Corrolex scripts interactively.
+   - Scripts can manipulate system monitoring or execute custom commands.
+3. **View Visualizations**:
+   - Real-time system metrics are displayed in a dynamic terminal interface.
+   - Monitor performance and resource usage at a glance.
+
+---
+
+### **Technical Highlights**
+- **Language**: Written in **C** for high performance and low-level control.
+- **Threading**: Multi-threaded with `pthread` for simultaneous task execution.
+- **Visualization**: Leverages `ncurses` for efficient, terminal-based visualizations.
+- **Extensibility**: Modular structure makes it easy to add new metrics, commands, or visual features.
+
+---
+
+### **Usage Scenarios**
+1. **System Performance Monitoring**:
+   - Ideal for developers needing real-time insights into system health.
+2. **Corrolex Development Platform**:
+   - Test and debug Corrolex scripts in an interactive environment.
+3. **Learning Tool**:
+   - Demonstrates integration of system-level programming and language runtime development.
+
+---
+
+### **Future Enhancements**
+1. **Expanded Metrics**:
+   - Add support for I/O stats, thermal data, and process-level monitoring.
+2. **Advanced Corrolex Integration**:
+   - Implement a full Corrolex virtual machine (VM) for advanced script execution.
+3. **Graphical Interfaces**:
+   - Transition to GUI libraries (e.g., GTK or Qt) for a richer user experience.
+4. **Cloud Integration**:
+   - Enable remote monitoring and visualization via cloud platforms.
+
+---
+
+The **Crust Environment** provides a powerful, scalable platform to monitor, visualize, and execute Corrolex code. It balances high performance with flexibility, making it a foundational tool for developers and system integrators alike.
+
