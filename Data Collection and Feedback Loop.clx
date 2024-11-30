@@ -1,0 +1,5 @@
+// Monitor metrics across node-web
+metrics = #(CollectMetrics(node_utilization, latency, throughput))
+
+// Analyze traffic patterns
+traffic_analysis = ~: AnalyzeTraffic(metrics)
