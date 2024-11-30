@@ -1,0 +1,7 @@
+// Real-time optimization in path selection
+function selectOptimalPath(resourceUsage: float, availablePaths: list) -> string {
+    if (resourceUsage > 0.8) {
+        return "Selecting path with least resource usage."
+    }
+    return "Selecting best-performing path."
+}
