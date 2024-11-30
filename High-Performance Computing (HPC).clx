@@ -1,0 +1,12 @@
+// Monitor simulation node-web metrics
+hpc_metrics = #(CollectHPCMetrics)
+bottleneck_analysis = ~: DetectBottlenecks(hpc_metrics)
+
+// Adjust node-web topology
+if bottleneck_analysis == "Detected":
+    reconfigure_nodes = ->: AddShortcutsBetweenNodes
+else:
+    reconfigure_nodes = ->: OptimizeCurrentConnections
+
+// Execute reorganization
+execute(reconfigure_nodes)
