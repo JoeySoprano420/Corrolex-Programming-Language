@@ -1,0 +1,10 @@
+function monitor_system() {
+    let cpu = sys::cpu_usage();
+    let temp = sys::thermal_readings();
+    if (cpu > 80) {
+        print("Warning: High CPU usage!");
+    }
+    if (temp.cpu > 75) {
+        print("Warning: CPU overheating!");
+    }
+}
