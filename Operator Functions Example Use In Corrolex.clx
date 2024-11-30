@@ -1,0 +1,34 @@
+// Example Corrolex code using shorthand operators
+
+// Breakdown of workflow
+result = ./b: Workflow
+
+// Explore CriticalPaths within the Workflow
+explore_result = #(CriticalPaths)
+
+// Assess worth for TaskEfficiency
+worth_result = $: TaskEfficiency
+
+// Isolate Critical Path with high priority
+isolation_result = @&|CriticalPath|/%HighPriority
+
+// Specify constraints for the analysis phase
+specifier_result = /%Urgent[/%High]  
+
+// Select the optimal path for the solution
+solution = :> SolutionPath
+
+// Transition to an optimized state
+transition_result = ->: TransitionToOptimizedState
+
+// Assign priority to high-priority tasks
+priority_result = ^:HighPriorityTask
+
+// Trigger an alert for resource allocation error
+alert_result = !: ResourceAllocationError
+
+// Approximate the next step analysis
+approximation_result = ~: NextStepAnalysis
+
+// Create a bidirectional link between nodes
+bidirectional_result = <-> Node1, Node2
