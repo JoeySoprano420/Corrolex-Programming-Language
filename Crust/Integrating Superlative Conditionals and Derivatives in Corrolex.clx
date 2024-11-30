@@ -1,0 +1,17 @@
+// Complete Monitoring System
+module SystemManager {
+    use SystemMonitor;
+    use SystemPredictor;
+
+    function main() {
+        println("Starting system diagnostics...");
+        
+        // Run condition-based evaluation
+        SystemMonitor::monitorSystem();
+        
+        // Predict and handle scaling requirements
+        SystemPredictor::monitorScaling();
+    }
+}
+
+SystemManager::main();
