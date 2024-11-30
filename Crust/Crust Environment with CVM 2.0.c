@@ -218,3 +218,6 @@ int main(int argc, char **argv) {
 
     return status;
 }
+
+Upgraded Crust Environment Core (GTK and WebAssembly Integration)
+
