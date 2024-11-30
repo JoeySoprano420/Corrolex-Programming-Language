@@ -1,0 +1,1 @@
+emcc crust_metrics.c -o crust_metrics.js -s WASM=1 -s EXPORTED_FUNCTIONS="['_simulate_system_metrics', '_detect_anomalies', '_optimize_resources']" -s EXTRA_EXPORTED_RUNTIME_METHODS="['ccall', 'cwrap']"
