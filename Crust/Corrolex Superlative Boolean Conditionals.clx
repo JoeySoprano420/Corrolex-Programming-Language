@@ -1,0 +1,25 @@
+// Superlative Conditional Example: Optimized Decision Making
+module SystemMonitor {
+    use Metrics;
+
+    function superlativeCheck(cpuLoad: Float, netLatency: Float, diskUsage: Float): Text {
+        // Hierarchical evaluation of conditions
+        let result = case (cpuLoad > 80.0, netLatency > 100.0, diskUsage > 90.0) {
+            (true, _, _) => "Action: Scale CPU resources",
+            (_, true, _) => "Action: Optimize Network bandwidth",
+            (_, _, true) => "Action: Free Disk Space",
+            _            => "System Stable",
+        };
+
+        return result;
+    }
+
+    function monitorSystem() {
+        let cpu = Metrics::getCPU();
+        let net = Metrics::getNetwork();
+        let disk = Metrics::getDisk();
+
+        // Dynamic evaluation of system health
+        println(superlativeCheck(cpu, net, disk));
+    }
+}
