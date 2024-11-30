@@ -1,0 +1,18 @@
+fn superlative_loop_example() {
+    let mut result = None;
+
+    loop {
+        result = match (condition_a(), condition_b(), condition_c()) {
+            (true, _, _) => Some("A is best-case"),
+            (_, true, _) => Some("B is fallback"),
+            (_, _, true) => Some("C is final"),
+            _ => None,
+        };
+
+        // Break the loop if a valid result is found
+        if let Some(res) = result {
+            println!("Result: {}", res);
+            break;
+        }
+    }
+}
