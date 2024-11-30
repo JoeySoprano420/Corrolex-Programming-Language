@@ -1,0 +1,14 @@
+// Declare shared memory locations for parallel tasks
+shared_memory = #(SharedMemoryLocation)
+
+// Transactional memory block for concurrent updates
+transaction_block = @|transaction: ConcurrentTaskUpdate|%SharedMemory
+
+// Execute the transactional memory block
+execute_transaction = ->: ExecuteTransaction(transaction_block)
+
+// If the task is successfully completed, commit changes to shared memory
+if execute_transaction == "Success":
+    commit_result = ^: CommitTransaction(shared_memory)
+else: // If transaction fails, rollback changes to shared memory
+    rollback_result = ^: RollbackTransaction(shared_memory)
