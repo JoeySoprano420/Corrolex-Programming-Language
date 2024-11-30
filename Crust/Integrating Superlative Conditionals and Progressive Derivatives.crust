@@ -1,0 +1,23 @@
+fn evaluate_system_load(cpu: f64, network: f64, disk: f64) {
+    let priority = match (cpu > 80.0, network > 100.0, disk > 90.0) {
+        (true, _, _) => "Scale CPU",
+        (_, true, _) => "Reduce Network Load",
+        (_, _, true) => "Free Disk Space",
+        _ => "System Stable",
+    };
+
+    println!("System Action: {}", priority);
+}
+
+fn predict_threshold_crossing(rate: f64, current: f64, threshold: f64) -> bool {
+    let derivative = (threshold - current) / rate; // Time to threshold
+    derivative < 1.0 // If time to threshold is less than 1 cycle
+}
+
+fn main() {
+    evaluate_system_load(85.0, 90.0, 95.0);
+
+    if predict_threshold_crossing(5.0, 70.0, 80.0) {
+        println!("Action Needed: CPU Load Escalating");
+    }
+}
