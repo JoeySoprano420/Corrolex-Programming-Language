@@ -1,0 +1,3 @@
+Inspect::@Capsule {
+    if (Error?)->Correct->Swap(Rule-5);
+}
