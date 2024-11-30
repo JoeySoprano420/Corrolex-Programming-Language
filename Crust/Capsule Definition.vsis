@@ -1,0 +1,5 @@
+Capsule @DataCapsule {
+    Input: [Tensor(3x3), String("Example")];
+    Process: -> Sync($Threads);
+    Output: {Vector[Result]};
+}
