@@ -1,0 +1,19 @@
+fn progressive_derivative_example<F>(f: F, x: f64, dx: f64) -> f64 
+where
+    F: Fn(f64) -> f64,
+{
+    let first_derivative = (f(x + dx) - f(x)) / dx;
+    let second_derivative = (f(x + 2.0 * dx) - 2.0 * f(x + dx) + f(x)) / (dx * dx);
+
+    println!("First Derivative: {}", first_derivative);
+    println!("Second Derivative: {}", second_derivative);
+
+    // Return combined derivative analysis
+    first_derivative + 0.5 * second_derivative
+}
+
+// Usage
+fn main() {
+    let derivative = progressive_derivative_example(|x| x.powi(2), 2.0, 0.01);
+    println!("Progressive Derivative Result: {}", derivative);
+}
