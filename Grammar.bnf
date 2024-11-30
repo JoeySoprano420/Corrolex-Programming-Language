@@ -1,0 +1,7 @@
+<expression> ::= <command> ":" <target> [<modifiers>]
+<command> ::= "./b" | "#()" | "$:" | "@&|" | "/%" | ":>" | "->:" | "^:" | "!:" | "~:" | "<->"
+<target> ::= <identifier> | <nested-expression> | <corrolex-expression>
+<modifiers> ::= "[" <modifier> {"," <modifier>} "]"
+<modifier> ::= "/" <property>
+<property> ::= "Low" | "Medium" | "High" | <custom-property>
+<corrolex-expression> ::= <identifier> | <expression> | <complex-expression>
