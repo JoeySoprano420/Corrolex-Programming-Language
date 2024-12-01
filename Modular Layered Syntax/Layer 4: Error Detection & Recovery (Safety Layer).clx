@@ -1,0 +1,13 @@
+// Error Handling and Recovery (Safety Layer)
+function safeFetchUserData(userId : Integer) -> JSON {
+    try {
+        return fetchUserData(userId);
+    } catch (DatabaseError) {
+        return handleError("Database connection failed");
+    }
+}
+
+function handleError(errorMessage : String) -> JSON {
+    logError(errorMessage);
+    return { "error": errorMessage };
+}
