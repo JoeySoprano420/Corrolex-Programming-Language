@@ -1,0 +1,12 @@
+// Performance Optimization (Efficiency Layer)
+task fetchUserDataConcurrently(userId : Integer) {
+    async fetchUserData(userId);
+}
+
+task handleRequestsInParallel(requests : List[HTTPRequest]) {
+    parallel {
+        for request in requests {
+            handleAPIRequest(request);
+        }
+    }
+}
