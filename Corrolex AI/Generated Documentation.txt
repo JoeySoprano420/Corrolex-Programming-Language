@@ -1,0 +1,6 @@
+### Function: add
+- **Description:** Adds two numbers and returns the result.
+- **Parameters:**
+  - `a`: The first number (type: integer/float).
+  - `b`: The second number (type: integer/float).
+- **Returns:** Sum of `a` and `b`.
