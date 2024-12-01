@@ -1,0 +1,11 @@
+// Declare Resources (Declarative Layer)
+resource Database : MySQL {
+    host = "localhost";
+    user = "admin";
+    password = "securepassword";
+}
+
+resource API {
+    endpoint = "/user";
+    method = "GET";
+}
