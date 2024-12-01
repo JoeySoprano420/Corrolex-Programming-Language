@@ -1,0 +1,15 @@
+// Higher-Order Functions and Compositions (Functional Layer)
+function logResponse(response : HTTPResponse) -> Void {
+    print("Response: ", response);
+}
+
+function getUserData(userId : Integer) -> JSON {
+    return fetchUserData(userId);
+}
+
+// Compose Functions
+function handleRequestWithLogging(request : HTTPRequest) -> HTTPResponse {
+    response = handleAPIRequest(request);
+    logResponse(response);
+    return response;
+}
