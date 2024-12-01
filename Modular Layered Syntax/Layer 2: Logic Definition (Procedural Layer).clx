@@ -1,0 +1,11 @@
+// Procedural Functions (Procedural Layer)
+function fetchUserData(userId : Integer) -> JSON {
+    connect to Database;
+    query("SELECT * FROM users WHERE id = :userId");
+    return queryResult;
+}
+
+function handleAPIRequest(request : HTTPRequest) -> HTTPResponse {
+    data = fetchUserData(request.userId);
+    return HTTPResponse(data);
+}
