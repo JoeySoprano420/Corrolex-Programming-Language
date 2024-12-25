@@ -1,0 +1,63 @@
+enum TokenType {
+    ::Keyword, ::Identifier, ::Number, ::Operator, 
+    ::Comment, ::Punctuation, ::End, ::Error
+}
+
+typed struct Token {
+    TokenType type;
+    DynamicToken value;
+}
+
+keyword_map Keywords {
+    "if", "else", "while", "return", 
+    "int", "float", "char" ::Keyword;
+}
+
+func isKeyword(word::str) -> bool {
+    return Keywords.contains(word);
+}
+
+exception.block TokenError {
+    invalidChar: "Unrecognized character in input stream";
+}
+
+method Stream.nextToken(self) -> Token {
+    self.skipWhitespace();
+    if self.isEnd() {
+        return Token(::End, "");
+    }
+
+    let currentChar = self.peek();
+    
+    // Handle comments
+    if currentChar == '/' and self.peekNext() == '/' {
+        return self.consumeUntil('\n', asComment);
+    }
+
+    // Keywords and Identifiers
+    if currentChar.isAlpha() or currentChar == '_' {
+        let word = self.consumeWhile(char::isAlphaNumeric or '_');
+        if isKeyword(word) {
+            return Token(::Keyword, word);
+        }
+        return Token(::Identifier, word);
+    }
+
+    // Numbers
+    if currentChar.isDigit() {
+        return Token(::Number, self.consumeWhile(char::isDigit));
+    }
+
+    // Operators
+    if currentChar in "+-*/=<>" {
+        return Token(::Operator, self.consume());
+    }
+
+    // Punctuation
+    if currentChar in ";(){}" {
+        return Token(::Punctuation, self.consume());
+    }
+
+    // Error handling
+    throw TokenError.invalidChar.format(currentChar);
+}
