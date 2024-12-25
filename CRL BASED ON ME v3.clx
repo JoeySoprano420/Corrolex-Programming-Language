@@ -1,18 +1,19 @@
 type Error {
-    range: String;          // Error range (A)
-    exclusive: Boolean;     // Is error exclusive? (B)
-    mutable: Boolean;       // Can error state change? (D)
+    range: String;          // Error range (e.g., SyntaxError, RuntimeError)
+    exclusive: Boolean;     // Is the error exclusive? (B)
+    mutable: Boolean;       // Can the error state change? (D)
     message: String;        // Descriptive error message
     code: Int;              // Unique error code
 }
 
 const ErrorRanges = {
-    SyntaxError: "100..199",
-    RuntimeError: "200..299",
-    LogicalError: "300..399",
-    CustomError: "400..499"
+    SyntaxError: 100..199,
+    RuntimeError: 200..299,
+    LogicalError: 300..399,
+    CustomError: 400..499
 };
 
+// Function to categorize error based on code
 function categorizeError(code: Int) -> String {
     match code {
         in ErrorRanges.SyntaxError => "Syntax Error",
@@ -23,36 +24,39 @@ function categorizeError(code: Int) -> String {
     }
 }
 
+// Subclasses of Error
+
 class NullReferenceError: Error {
+    range = "RuntimeError"; // Explicit category
     exclusive = true;
     mutable = false; // Immutable
-    range = "RuntimeError"; 
     message = "Null reference accessed.";
     code = 201; // Part of RuntimeError range
 }
 
 class TimeoutError: Error {
+    range = "RuntimeError"; // Explicit category
     exclusive = false; // Non-exclusive
-    mutable = true; 
-    range = "RuntimeError"; 
+    mutable = true;    // Mutable error state
     message = "Operation timed out.";
     code = 250; // Part of RuntimeError range
 }
 
+class DivisionByZeroError: Error {
+    range = "LogicalError"; // Explicit category
+    exclusive = true;
+    mutable = false; // Immutable
+    message = "Attempted to divide by zero.";
+    code = 300; // LogicalError range
+}
+
+// Function to handle mutable errors
 function handleMutableError(error: Error) {
-    if (error.mutable) {
+    if error.mutable {
         log("Error state evolving. Monitoring...");
-        // Modify error state based on program logic
+        // Modify the error state based on program logic
         error.message += " Cascading failure detected.";
     } else {
         log("Error is static. Taking immediate action.");
     }
-}
-
-class DivisionByZeroError: Error {
-    exclusive = true;
-    mutable = false; // Immutable
-    range = "LogicalError"; 
-    message = "Attempted to divide by zero.";
-    code = 300; // LogicalError range
 }
