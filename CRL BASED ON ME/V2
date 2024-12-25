@@ -1,0 +1,58 @@
+type Error {
+    range: String;          // Error range (A)
+    exclusive: Boolean;     // Is error exclusive? (B)
+    mutable: Boolean;       // Can error state change? (D)
+    message: String;        // Descriptive error message
+    code: Int;              // Unique error code
+}
+
+const ErrorRanges = {
+    SyntaxError: "100..199",
+    RuntimeError: "200..299",
+    LogicalError: "300..399",
+    CustomError: "400..499"
+};
+
+function categorizeError(code: Int) -> String {
+    match code {
+        in ErrorRanges.SyntaxError => "Syntax Error",
+        in ErrorRanges.RuntimeError => "Runtime Error",
+        in ErrorRanges.LogicalError => "Logical Error",
+        in ErrorRanges.CustomError => "Custom Error",
+        _ => "Unknown Error"
+    }
+}
+
+class NullReferenceError: Error {
+    exclusive = true;
+    mutable = false; // Immutable
+    range = "RuntimeError"; 
+    message = "Null reference accessed.";
+    code = 201; // Part of RuntimeError range
+}
+
+class TimeoutError: Error {
+    exclusive = false; // Non-exclusive
+    mutable = true; 
+    range = "RuntimeError"; 
+    message = "Operation timed out.";
+    code = 250; // Part of RuntimeError range
+}
+
+function handleMutableError(error: Error) {
+    if (error.mutable) {
+        log("Error state evolving. Monitoring...");
+        // Modify error state based on program logic
+        error.message += " Cascading failure detected.";
+    } else {
+        log("Error is static. Taking immediate action.");
+    }
+}
+
+class DivisionByZeroError: Error {
+    exclusive = true;
+    mutable = false; // Immutable
+    range = "LogicalError"; 
+    message = "Attempted to divide by zero.";
+    code = 300; // LogicalError range
+}
