@@ -1,0 +1,244 @@
+// Define class CryptoActivityMonitorWithScrapingQPAM
+class CryptoActivityMonitorWithScrapingQPAM {
+    blockchain: String
+    rpc_url: String
+    target_address: String
+    web3: Web3
+    blacklist_url: String?
+    blacklist: Set<String>
+    db_client: MongoClient
+    db: MongoDB
+    collection: MongoDBCollection
+    qi_results: List<Map<String, Any>>
+    qsi_results: List<Map<String, Any>>
+
+    // Constructor to initialize the class
+    construct CryptoActivityMonitorWithScrapingQPAM(blockchain: String, rpc_url: String, target_address: String, blacklist_url: String? = None) {
+        self.blockchain := blockchain
+        self.rpc_url := rpc_url
+        self.target_address := target_address
+        self.web3 := Web3(Web3.HTTPProvider(rpc_url))
+        self.blacklist_url := blacklist_url
+        self.blacklist := self.fetch_blacklist()
+
+        // MongoDB database setup
+        self.db_client := MongoClient("mongodb://localhost:27017/")
+        self.db := self.db_client["crypto_monitor"]
+        self.collection := self.db["transactions"]
+
+        // Initialize QPAM components
+        self.qi_results := List<Map<String, Any>>()
+        self.qsi_results := List<Map<String, Any>>()
+    }
+
+    // Fetch public blacklist for malicious addresses
+    func fetch_blacklist() -> Set<String> {
+        // Restructure the approach for the error-handling
+        try {
+            if self.blacklist_url == None {
+                return Set<String>()
+            }
+            response := requests.get(self.blacklist_url)
+            if response.status_code == 200 {
+                blacklist := Set<String>(response.json())
+                print(f"Loaded {len(blacklist)} blacklisted addresses.")
+                return blacklist
+            } else {
+                restructure("Failed to fetch blacklist, status code: " + response.status_code)
+                neglect("Failed to fetch blacklist.")
+            }
+        } catch (Exception e) {
+            report(e, "Error fetching blacklist.")
+            isolate("Error with blacklist fetch. Ignoring this component.")
+        }
+        return Set<String>()
+    }
+
+    // Scrape transaction details from blockchain explorer website
+    func scrape_transaction_details() {
+        try {
+            etherscan_url := "https://etherscan.io/address/{self.target_address}"
+            response := requests.get(etherscan_url)
+            soup := BeautifulSoup(response.text, "html.parser")
+
+            transactions := List<Map<String, String>>()
+            table := soup.find("table", {"id": "transactions"})
+            if table != None {
+                rows := table.find_all("tr")[1:]
+                for row in rows {
+                    columns := row.find_all("td")
+                    tx_hash := columns[0].text.strip()
+                    from_address := columns[1].text.strip()
+                    to_address := columns[2].text.strip()
+                    value := columns[3].text.strip()
+
+                    transaction := Map<String, String>({
+                        "tx_hash": tx_hash,
+                        "from": from_address,
+                        "to": to_address,
+                        "value": value
+                    })
+                    transactions.append(transaction)
+                    self.store_transaction(transaction)
+                }
+
+            print(f"Scraped {len(transactions)} transactions.")
+            self.apply_qi_adaptations(transactions)
+        } catch (Exception e) {
+            report(e, "Error scraping transaction details.")
+            isolate("Scraping failure, aborting this transaction cycle.")
+        }
+    }
+
+    // Store transaction data in MongoDB
+    func store_transaction(transaction: Map<String, String>) {
+        try {
+            self.collection.insert_one(transaction)
+            print(f"Stored transaction: {transaction['tx_hash']}")
+        } catch (Exception e) {
+            report(e, "Error storing transaction.")
+            isolate("Storing failed, but proceeding to next.")
+        }
+    }
+
+    // Fetch flagged activity from forums
+    func fetch_flagged_activity() {
+        try {
+            forum_url := "https://mockblockchainforum.com/flagged-activity"
+            response := requests.get(forum_url)
+            soup := BeautifulSoup(response.text, "html.parser")
+
+            flagged_addresses := List<String>()
+            flagged_section := soup.find("div", {"id": "flagged-addresses"})
+            if flagged_section != None {
+                for item in flagged_section.find_all("li") {
+                    flagged_addresses.append(item.text.strip())
+                }
+
+            for address in flagged_addresses {
+                if address in self.blacklist {
+                    print(f"Blacklisted address found in forum: {address}")
+                } else {
+                    print(f"Flagged address: {address}")
+                }
+
+            self.apply_qsi_quantum_integration(flagged_addresses)
+        } catch (Exception e) {
+            report(e, "Error fetching flagged activity.")
+            isolate("Forum activity fetch failed, skipping this cycle.")
+        }
+    }
+
+    // QI Logic: Apply Quantum Interaction
+    func apply_qi_adaptations(transactions: List<Map<String, String>>) {
+        try {
+            print("Applying QI adaptive learning...")
+            for transaction in transactions {
+                performance_data := self.gather_performance_data(transaction)
+                suggestions := self.generate_adaptive_suggestions(performance_data)
+                print(f"QI Suggestions: {suggestions}")
+            }
+        } catch (Exception e) {
+            report(e, "Error applying QI adaptations.")
+            isolate("QI adaptations failed, continuing without adjustments.")
+        }
+    }
+
+    // Collect performance data for adaptive learning
+    func gather_performance_data(transaction: Map<String, String>) -> Map<String, Any> {
+        return Map<String, Any>({
+            "tx_hash": transaction["tx_hash"],
+            "latency": 0.5,  // Mock latency
+            "success_rate": 99.9,  // Example metric
+        })
+    }
+
+    // Generate adaptive suggestions based on performance metrics
+    func generate_adaptive_suggestions(performance_data: Map<String, Any>) -> Map<String, Any> {
+        return Map<String, Any>({
+            "action": "Optimize latency" if performance_data["latency"] > 1 else "Monitor",
+            "success_rate": performance_data["success_rate"]
+        })
+    }
+
+    // QSI Logic: Apply Quantum Synthesis Integration
+    func apply_qsi_quantum_integration(flagged_addresses: List<String>) {
+        try {
+            print("Applying QSI quantum integration...")
+            for address in flagged_addresses {
+                optimization := self.superposition_optimization(address)
+                print(f"QSI Optimization for {address}: {optimization}")
+            }
+        } catch (Exception e) {
+            report(e, "Error applying QSI integration.")
+            isolate("QSI integration failed, bypassing flagged addresses.")
+        }
+    }
+
+    // Superposition Optimization using Quantum principles
+    func superposition_optimization(address: String) -> String {
+        return f"Optimized pathways for {address}"
+    }
+
+    // Apply quantum encryption to secure data
+    func apply_firechain_thunderbolt_encryption(data: String) {
+        try {
+            print(f"Applying FireChain Thunderbolt encryption to {data}...")
+        } catch (Exception e) {
+            report(e, "Error applying FireChain Thunderbolt encryption.")
+            isolate("Encryption failed, continuing.")
+        }
+    }
+
+    // Resolve quantum errors using precision
+    func quantum_error_resolution(error_code: String, context: String) {
+        try {
+            print(f"Resolving error {error_code} in context {context}...")
+        } catch (Exception e) {
+            report(e, "Error resolving quantum error.")
+            isolate("Quantum error resolution failed, monitoring system.")
+        }
+    }
+}
+
+// BlockchainForumCrawler Class for scanning forums
+class BlockchainForumCrawler: Spider {
+    name := "blockchain_crawler"
+
+    // Start scraping requests
+    func start_requests() {
+        urls := [
+            "https://mockblockchainforum.com/flagged-activity",
+            "https://anotherblockchainforum.com/suspicious-transactions"
+        ]
+        for url in urls {
+            yield Request(url=url, callback=self.parse)
+        }
+    }
+
+    // Parse flagged activity from forum
+    func parse(response: Response) {
+        try {
+            flagged_addresses := response.css("div.flagged-addresses li::text").getall()
+            print(f"Found flagged addresses: {flagged_addresses}")
+        } catch (Exception e) {
+            report(e, "Error parsing flagged activity.")
+            isolate("Forum parsing failed, continuing.")
+        }
+    }
+}
+
+// Main block to initialize and run monitor
+func main() {
+    blockchain := "Ethereum"
+    rpc_url := "https://mainnet.infura.io/v3/YourInfuraProjectID"
+    target_address := "0xTargetAddressHere"
+    blacklist_url := "https://example.com/blacklist.json"
+
+    monitor := CryptoActivityMonitorWithScrapingQPAM(blockchain, rpc_url, target_address, blacklist_url)
+    monitor.scrape_transaction_details()
+    monitor.fetch_flagged_activity()
+}
+
+// Invoke main block
+main()
