@@ -3208,3 +3208,106 @@ YourCompiler.exe main.cpp -Lpath_to_libs -l<library_name> -o program.exe
 Conclusion
 
 Once the executable for the compiler is built, users can invoke it from the command line, passing source files to compile and generate executable code. Users will need to ensure dependencies are installed, and they can customize the compilation process using flags for optimizations, debugging, and other advanced features.
+
+To compile a Corrolex code saved in Notepad (or any text editor) using the compiler described earlier, you’ll follow the general steps below. These steps assume that you have already compiled the compiler and have it set up to handle Corrolex code in its current form.
+
+1. Prepare the Corrolex Source Code
+
+First, save your Corrolex code in a text file using Notepad or any other text editor.
+	1.	Open Notepad (or your preferred text editor).
+	2.	Write your Corrolex code.
+	3.	Save the file with an appropriate extension (e.g., .corrolex or .cxlx).
+
+Example Corrolex code in Notepad:
+
+// Corrolex example program
+variable x = 10;
+variable y = 20;
+
+function add(a, b) {
+  return a + b;
+}
+
+result = add(x, y);
+print(result);  // Outputs: 30
+
+	4.	Save the file as program.cxlx or another extension that your compiler recognizes for Corrolex files.
+
+2. Compile the Corrolex Code
+
+Once you’ve saved your code, you need to compile it using the compiled compiler executable (YourCompiler.exe). Follow these steps:
+	1.	Open Command Prompt (Windows) or Terminal (Linux/macOS).
+	2.	Navigate to the directory where your YourCompiler.exe is located and where your program.cxlx (or equivalent) Corrolex file is saved.
+
+For example:
+
+cd C:\path\to\compiler\directory
+
+	3.	Run the compiler with the Corrolex source file as input. Assuming your Corrolex compiler (YourCompiler.exe) accepts .cxlx files and outputs .exe (or some other executable format), the command will look like this:
+
+YourCompiler.exe program.cxlx program.exe
+
+In this case:
+	•	YourCompiler.exe is the name of the compiled compiler executable.
+	•	program.cxlx is the Corrolex source file containing your code.
+	•	program.exe is the output executable file.
+
+	4.	Optional: You can pass additional compiler flags to enable optimizations or other features, such as debugging or warnings. For example:
+
+YourCompiler.exe -O2 -Wall program.cxlx program.exe
+
+Here:
+	•	-O2: Optimization level 2.
+	•	-Wall: Enable all warnings.
+
+3. Run the Compiled Corrolex Program
+
+Once the Corrolex code is compiled successfully, you’ll have an output executable file (program.exe or similar, depending on your configuration).
+	1.	To run the program, use the following command:
+On Windows:
+
+program.exe
+
+On Linux/macOS (if compiled as a native executable):
+
+./program
+
+
+	2.	The program should run, and if it has a print statement or similar output functions, it will display the result in the terminal or command prompt. For example, if your program prints the result of an addition, you should see 30 outputted to the terminal.
+
+4. Error Handling and Debugging
+
+If there are errors in your Corrolex code (syntax errors, missing semicolons, etc.), the compiler will output error messages in the command prompt or terminal. You can then return to your Notepad file, fix the issues, save it, and attempt to recompile the code.
+
+The compiler might display error messages similar to the following:
+
+error: variable 'x' is not defined
+error: unexpected token at line 4
+warning: unused variable 'y' detected
+
+5. Profile-Driven Optimizations and Advanced Options
+
+If you want to use advanced optimizations or features like profile-driven optimizations (PGO) or debug symbols:
+	1.	Profile-Driven Optimizations: If your compiler supports LLVM’s PGO system or another profiling system, you would need to first run the program in a profiling mode to collect data. You would then recompile with this data to optimize based on usage patterns.
+Example:
+
+YourCompiler.exe -O2 -pg program.cxlx program.exe
+
+
+	2.	Loop Optimizations: If your compiler supports loop optimizations (like loop unrolling, invariant code motion), these would automatically be applied during the compilation process when you use the appropriate optimization flags (e.g., -O2 or higher).
+
+Summary of the Workflow
+	1.	Write Corrolex code in Notepad: Save it with .cxlx extension.
+	2.	Open Command Prompt/Terminal and navigate to your compiler directory.
+	3.	Run the compiler on the Corrolex source code to generate an executable:
+
+YourCompiler.exe program.cxlx program.exe
+
+
+	4.	Run the executable to execute the compiled Corrolex code:
+
+program.exe
+
+
+
+This is how a user would compile and run Corrolex code using the described compiler setup.
