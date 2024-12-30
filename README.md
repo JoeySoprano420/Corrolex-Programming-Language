@@ -3542,3 +3542,95 @@ You’re compiling the compiler for the language, not directly compiling the pro
 	•	Language Compilation: Once the compiler is built, you can use it to compile code written in your language (e.g., Corrolex) into an executable.
 
  
+To get Visual Studio to support your new compiler (such as the one for Corrolex) and allow you to write Corrolex code directly within Visual Studio, you need to integrate the Corrolex compiler into the IDE. This can be done by creating a custom language extension for Visual Studio. Here’s a step-by-step guide to help you achieve this:
+
+1. Install Visual Studio (If Not Already Installed)
+
+Ensure that Visual Studio is installed on your machine. For developing custom extensions, the Visual Studio Community Edition or Professional Edition will work.
+	•	You can download Visual Studio from here.
+	•	Make sure to select the Desktop development with C++ workload when installing.
+
+2. Create a Custom Language Extension for Visual Studio
+
+Visual Studio supports custom language extensions, which means you can add Corrolex as a new language in the IDE. This involves creating a Language Service that ties into the existing IDE interface.
+
+To do this:
+	1.	Install the Visual Studio SDK:
+	•	Open Visual Studio Installer.
+	•	Under the Individual components tab, select Visual Studio SDK and install it.
+	2.	Create a New Visual Studio Extension:
+	•	Open Visual Studio and create a new Visual Studio Extension project.
+	•	From the template options, select VSIX Project (this will allow you to package your extension for Visual Studio).
+	3.	Add a Custom Language Service:
+	•	You’ll need to create a Language Service that allows Visual Studio to understand the Corrolex syntax, syntax highlighting, and possibly IntelliSense.
+	•	To do this, you can either write your own custom language service or use an existing template and modify it.
+	•	You’ll define your language syntax (keywords, operators, etc.) and tell Visual Studio how to parse and highlight Corrolex code.
+
+3. Integrate Corrolex Compiler with Visual Studio Build System
+
+In addition to syntax highlighting and IntelliSense, you need to configure Visual Studio to compile Corrolex code using your Corrolex compiler when building projects.
+	1.	Create a Custom Build System:
+	•	You’ll need to set up a custom build tool to invoke the Corrolex compiler from within Visual Studio.
+	•	In your VSIX project, add a custom tool configuration that tells Visual Studio to run your Corrolex compiler (e.g., CorrolexCompiler.exe) when a .cxlx file is saved or built.
+Example steps:
+	•	Right-click your project > Properties > Configuration Properties > General.
+	•	Set Configuration Type to Application (.exe) or Utility.
+	•	In Build Events, add a Post-Build Event where you call your Corrolex compiler:
+
+CorrolexCompiler.exe $(ProjectDir)program.cxlx
+
+
+	2.	Specify File Extensions and Compiler Settings:
+	•	Add file associations so Visual Studio knows that .cxlx files are Corrolex files.
+	•	This will ensure that when you open .cxlx files, Visual Studio treats them as Corrolex code and applies your custom syntax highlighting.
+
+4. Syntax Highlighting (Optional)
+
+To make the Corrolex code visually recognizable and easier to edit, you can add syntax highlighting.
+
+You will define what each keyword, function, operator, and other language constructs in Corrolex look like using a Colorization class, which will hook into Visual Studio’s text editor.
+
+Example:
+	•	In your Language Service, you can write a custom colorizer that adds color schemes for keywords, operators, etc.
+
+5. IntelliSense (Optional)
+
+Adding IntelliSense support in Visual Studio is a bit more complex but can greatly improve the developer experience.
+	1.	You would need to hook into the IntelliSense API and provide:
+	•	Code completion for Corrolex keywords, functions, and methods.
+	•	Tooltips that display documentation for functions or variables.
+	2.	Visual Studio’s TextMate grammar (or a custom implementation) can be used to provide IntelliSense-like features based on the language constructs you define for Corrolex.
+
+6. Testing and Debugging the Extension
+
+Once the extension is developed, you can test it in Visual Studio:
+	1.	Build your VSIX project.
+	2.	Launch the experimental instance of Visual Studio from the Debug menu in the VSIX project (this allows you to test your extension without affecting your main Visual Studio installation).
+	3.	Verify that Corrolex code (with .cxlx extension) is properly recognized, compiled, and syntax-highlighted.
+
+7. Package and Distribute the Extension
+
+After testing the extension, you can package it into a .vsix file, which can be shared with others.
+	1.	Go to Build > Build Solution.
+	2.	The .vsix file will be created, which can be installed by others to add Corrolex support to their Visual Studio instances.
+	3.	To distribute it, you can either upload it to the Visual Studio Marketplace or share the .vsix file directly.
+
+Example of the VSIX Project Structure
+
+Here’s an example of what your Visual Studio extension might include:
+
+- CorrolexExtension/
+    - CorrolexLanguageService/         (Defines language-specific features like syntax highlighting)
+    - CorrolexCompilerIntegration/    (Custom build steps, integrates CorrolexCompiler.exe)
+    - Resources/
+        - Syntax Highlighting Files (TextMate grammar or custom definitions)
+    - Corrolex.vsct                   (Defines Visual Studio commands, like 'Build Corrolex Project')
+    - CorrolexPackage.cs               (Main entry point for the extension)
+
+Key Points
+	•	Visual Studio SDK: You need the Visual Studio SDK to build the extension.
+	•	Language Service: You’ll write a custom Language Service to support syntax highlighting, IntelliSense, and other features for Corrolex.
+	•	Custom Build System: Integrate the Corrolex compiler into the Visual Studio build system using custom build events or tools.
+	•	IntelliSense and Debugging (Optional): For a more advanced experience, add code completion and debugging support.
+
+By completing these steps, you’ll be able to write, edit, and compile Corrolex code directly within Visual Studio, with all the IDE features like syntax highlighting, build automation, and more.
