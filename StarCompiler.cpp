@@ -1,3 +1,5 @@
+Will this catch errors?
+
 #include <iostream>
 #include <llvm/IR/IRBuilder.h>
 #include <llvm/IR/Module.h>
@@ -224,4 +226,266 @@ int main() {
     std::cout << "Code Generation Complete with PGO and Advanced Optimizations!" << std::endl;
 
     return 0;
+}
+
+IfStatementNode* ifStmt = dynamic_cast<IfStatementNode*>(stmtNode);
+if (!ifStmt) {
+    // Handle the error
+    std::cerr << "Invalid cast to IfStatementNode!" << std::endl;
+    return;
+}
+
+legacy::PassManager pm;
+pm.add(createConstantPropagationPass());
+pm.add(createGVNPass());
+pm.run(*module);
+
+if (!varNode) {
+    std::cerr << "Error: VariableNode is null!" << std::endl;
+    return;
+}
+
+void generateCodeForAssignment(VariableNode* varNode) {
+    if (!varNode) {
+        std::cerr << "Error: VariableNode is null!" << std::endl;
+        return;
+    }
+    
+    Value* value = evaluateExpression(varNode->getValue());
+    if (auto* constant = dyn_cast<ConstantInt>(value)) {
+        builder->CreateStore(constant, varNode->getStorageLocation());
+    } else {
+        builder->CreateStore(value, varNode->getStorageLocation());
+    }
+}
+
+IfStatementNode* ifStmt = dynamic_cast<IfStatementNode*>(stmtNode);
+if (!ifStmt) {
+    std::cerr << "Invalid cast to IfStatementNode!" << std::endl;
+    return;
+}
+
+if (!varNode) {
+    std::cerr << "Error: VariableNode is null!" << std::endl;
+    return;
+}
+
+if (profileDataUnavailable) {
+    std::cerr << "Warning: Profile-guided optimization skipped due to missing profile data." << std::endl;
+}
+
+void generateCodeForAssignment(VariableNode* varNode) {
+    if (!varNode) {
+        std::cerr << "Error: VariableNode is null!" << std::endl;
+        return;
+    }
+
+    try {
+        Value* value = evaluateExpression(varNode->getValue());
+        if (auto* constant = dyn_cast<ConstantInt>(value)) {
+            builder->CreateStore(constant, varNode->getStorageLocation());
+        } else {
+            builder->CreateStore(value, varNode->getStorageLocation());
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Error during code generation for assignment: " << e.what() << std::endl;
+    }
+}
+
+if (!varNode) {
+    std::cerr << "Error: VariableNode is null!" << std::endl;
+    return;
+}
+
+IfStatementNode* ifStmt = dynamic_cast<IfStatementNode*>(stmtNode);
+if (!ifStmt) {
+    std::cerr << "Invalid cast to IfStatementNode!" << std::endl;
+    return;
+}
+
+if (profileDataUnavailable) {
+    std::cerr << "Warning: Profile-guided optimization skipped due to missing profile data." << std::endl;
+}
+
+try {
+    Value* value = evaluateExpression(varNode->getValue());
+    if (auto* constant = dyn_cast<ConstantInt>(value)) {
+        builder->CreateStore(constant, varNode->getStorageLocation());
+    } else {
+        builder->CreateStore(value, varNode->getStorageLocation());
+    }
+} catch (const std::exception& e) {
+    std::cerr << "Error during expression evaluation: " << e.what() << std::endl;
+}
+
+try {
+    // LLVM-specific code
+} catch (const llvm::Exception& e) {
+    std::cerr << "LLVM error occurred: " << e.what() << std::endl;
+}
+
+std::ofstream errorLog("error_log.txt", std::ios::app);
+errorLog << "Error: VariableNode is null!" << std::endl;
+
+assert(varNode && "VariableNode is null!");
+
+void generateCodeForAssignment(VariableNode* varNode) {
+    if (!varNode) {
+        std::cerr << "Error: VariableNode is null!" << std::endl;
+        return;
+    }
+
+    try {
+        Value* value = evaluateExpression(varNode->getValue());
+        if (auto* constant = dyn_cast<ConstantInt>(value)) {
+            builder->CreateStore(constant, varNode->getStorageLocation());
+        } else {
+            builder->CreateStore(value, varNode->getStorageLocation());
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Error during code generation for assignment: " << e.what() << std::endl;
+    }
+}
+
+void generateCodeForIfStatement(IfStatementNode* ifStmt) {
+    if (!ifStmt) {
+        std::cerr << "Invalid cast to IfStatementNode!" << std::endl;
+        return;
+    }
+
+    try {
+        BasicBlock* thenBB = BasicBlock::Create(*context, "then", currentFunction);
+        BasicBlock* elseBB = BasicBlock::Create(*context, "else", currentFunction);
+        BasicBlock* mergeBB = BasicBlock::Create(*context, "merge", currentFunction);
+
+        builder->CreateCondBr(ifStmt->getCondition(), thenBB, elseBB);
+
+        builder->SetInsertPoint(thenBB);
+        generateCodeForStatement(ifStmt->getThenBranch());
+        builder->CreateBr(mergeBB);
+
+        builder->SetInsertPoint(elseBB);
+        generateCodeForStatement(ifStmt->getElseBranch());
+        builder->CreateBr(mergeBB);
+
+        builder->SetInsertPoint(mergeBB);
+    } catch (const std::exception& e) {
+        std::cerr << "Error during code generation for if statement: " << e.what() << std::endl;
+    }
+}
+
+void generateCodeForWhileLoop(WhileLoopNode* loopNode) {
+    if (!loopNode) {
+        std::cerr << "Invalid cast to WhileLoopNode!" << std::endl;
+        return;
+    }
+
+    try {
+        BasicBlock* loopBB = BasicBlock::Create(*context, "loop", currentFunction);
+        BasicBlock* exitBB = BasicBlock::Create(*context, "exit", currentFunction);
+
+        builder->CreateBr(loopBB);
+        builder->SetInsertPoint(loopBB);
+
+        Value* condition = evaluateExpression(loopNode->getCondition());
+        builder->CreateCondBr(condition, exitBB, loopBB);
+
+        builder->SetInsertPoint(exitBB);
+    } catch (const std::exception& e) {
+        std::cerr << "Error during code generation for while loop: " << e.what() << std::endl;
+    }
+}
+
+void applyOptimizations() {
+    try {
+        legacy::PassManager pm;
+        pm.add(createConstantPropagationPass());
+        pm.add(createGVNPass());
+        pm.run(*module);
+    } catch (const std::exception& e) {
+        std::cerr << "Error during optimization pass: " << e.what() << std::endl;
+    }
+}
+
+if (!stmtNode) {
+    std::cerr << "Error: StatementNode is null!" << std::endl;
+    return;
+}
+
+IfStatementNode* ifStmt = dynamic_cast<IfStatementNode*>(stmtNode);
+if (!ifStmt) {
+    std::cerr << "Error: Invalid cast to IfStatementNode!" << std::endl;
+    return;
+}
+
+assert(varNode != nullptr && "VariableNode cannot be null!");
+
+if (!fpm) {
+    std::cerr << "Error: Function pass manager is not initialized!" << std::endl;
+    return;
+}
+
+if (profileDataUnavailable) {
+    std::cerr << "Warning: Profile-guided optimization skipped due to missing profile data." << std::endl;
+}
+
+Expected<Function*> funcOrError = module->getFunction("someFunction");
+if (!funcOrError) {
+    std::cerr << "Error: Function not found in module!" << std::endl;
+    return;
+}
+
+Expected<Function*> funcOrError = module->getFunction("someFunction");
+if (!funcOrError) {
+    std::cerr << "Error: Function not found in module!" << std::endl;
+    return;
+}
+
+delete varNode;  // If you own the node
+
+try {
+    generateCodeForAssignment(varNode);
+} catch (const std::exception& e) {
+    std::cerr << "Exception caught: " << e.what() << std::endl;
+}
+
+if (!varNode) {
+    std::cerr << "Error: VariableNode is null!" << std::endl;
+    return;
+}
+
+IfStatementNode* ifStmt = dynamic_cast<IfStatementNode*>(stmtNode);
+if (!ifStmt) {
+    std::cerr << "Invalid cast to IfStatementNode!" << std::endl;
+    return;
+}
+
+if (profileDataUnavailable) {
+    std::cerr << "Warning: Profile-guided optimization skipped due to missing profile data." << std::endl;
+}
+
+try {
+    // Code that might throw exceptions
+} catch (const std::exception& e) {
+    std::cerr << "Error occurred: " << e.what() << std::endl;
+    // Handle exception
+}
+
+void generateCodeForAssignment(VariableNode* varNode) {
+    if (!varNode) {
+        std::cerr << "Error: VariableNode is null!" << std::endl;
+        return;
+    }
+
+    try {
+        Value* value = evaluateExpression(varNode->getValue());
+        if (auto* constant = dyn_cast<ConstantInt>(value)) {
+            builder->CreateStore(constant, varNode->getStorageLocation());
+        } else {
+            builder->CreateStore(value, varNode->getStorageLocation());
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Error while generating code for assignment: " << e.what() << std::endl;
+        return;
+    }
 }
