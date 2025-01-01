@@ -134,3 +134,95 @@ int main() {
     yyparse();
     return 0;
 }
+
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "tokenizer.c"
+#include "symbol_table.c"
+#include "optimizer.c"
+#include "error_handler.c"
+
+extern int yylex();
+extern FILE *yyin;
+
+void yyerror(const char *s) {
+    report_error(s); // Enhanced error logging
+}
+
+%}
+
+%token IDENTIFIER NUMBER OPERATOR KEYWORD PUNCTUATION COMMENT RETURN IF ELSE WHILE FOR
+%start program
+
+%%
+
+program:
+    declaration_list { optimize_program($1); }
+;
+
+declaration_list:
+    declaration
+    | declaration_list declaration
+;
+
+declaration:
+    type IDENTIFIER ';' { 
+        if (add_symbol($2, $1)) {
+            printf("Declared variable: %s of type %s\n", $2, $1);
+        } else {
+            yyerror("Redeclaration error");
+        }
+    }
+    | type IDENTIFIER '=' expression ';' {
+        if (add_symbol($2, $1)) {
+            validate_and_optimize_expression($4);
+            printf("Initialized variable: %s of type %s\n", $2, $1);
+        } else {
+            yyerror("Redeclaration error");
+        }
+    }
+;
+
+type:
+    "int" { $$ = "int"; }
+    | "float" { $$ = "float"; }
+    | "char" { $$ = "char"; }
+;
+
+expression:
+    IDENTIFIER {
+        if (!find_symbol($1)) {
+            yyerror("Undeclared identifier");
+        }
+        $$ = $1;
+    }
+    | NUMBER {
+        $$ = $1;
+    }
+    | expression OPERATOR expression {
+        if (!validate_types($1, $3)) {
+            yyerror("Type mismatch");
+        }
+        $$ = generate_optimized_expression($1, $2, $3);
+    }
+;
+
+%%
+
+int main(int argc, char **argv) {
+    if (argc > 1) {
+        yyin = fopen(argv[1], "r");
+        if (!yyin) {
+            fprintf(stderr, "Error: Could not open file %s\n", argv[1]);
+            return 1;
+        }
+    } else {
+        printf("Enter Corrolex code:\n");
+    }
+
+    yyparse();
+    fclose(yyin);
+    return 0;
+}
